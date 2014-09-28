@@ -1,0 +1,162 @@
+" ----------------------------------------------------------------------------
+" - Basic configuration                                                    -
+" ----------------------------------------------------------------------------
+let mapleader=','
+let timeoutlen=1500
+let maplocalleader=','
+
+set number
+set wildmenu
+set lazyredraw
+set mouse=a
+
+set history=500
+
+set backspace=indent,eol,start " More intuitive backspace
+
+set hlsearch
+nmap <silent> <space> :nohlsearch<CR>
+
+set hidden " Keep buffer open when closing a file
+
+" This allows vim -q files.txt
+" then you can use the quickfix buffer to cycle through
+" files with :cn :cp and :copen
+set errorformat=%f
+
+" Indentation
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+set expandtab
+autocmd Filetype ruby setlocal sw=2 sts=2 ts=2
+
+set nowrap
+nnoremap <leader>sw :set wrap!<CR>
+
+set autoindent
+nnoremap <C-o> o
+
+" Window movement
+inoremap <C-J> <Esc><C-W>j
+inoremap <C-K> <Esc><C-W>k
+inoremap <C-H> <Esc><C-W>h
+inoremap <C-L> <Esc><C-W>l
+
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-H> <C-W>h
+nnoremap <C-L> <C-W>l
+
+" Ignore some files in the file explorer
+let g:netrw_list_hide='\.swp$,\.pyc$,\(^\|\s\s\)\zs\.\S\+'
+
+" Status line
+set ruler
+set showcmd
+set showmode
+set laststatus=2
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
+" Syntax hilighting
+syntax enable
+
+au FilterWritePre * if &diff | highlight DiffAdd ctermfg=black ctermbg=green | endif
+au FilterWritePre * if &diff | highlight DiffDelete ctermfg=black ctermbg=red | endif
+au FilterWritePre * if &diff | highlight DiffChange ctermfg=black ctermbg=white | endif
+au FilterWritePre * if &diff | highlight DiffText ctermfg=black ctermbg=red | endif
+
+if &diff
+    colorscheme default
+    highlight DiffAdd ctermfg=black ctermbg=green
+    highlight DiffDelete ctermfg=black ctermbg=red
+    highlight DiffChange ctermfg=black ctermbg=white
+    highlight DiffText ctermfg=black ctermbg=red
+else
+    colorscheme default
+    highlight ExtraWhitespace ctermbg=Red guibg=Red
+    autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+    :set list listchars=tab:»·,trail:·,precedes:«,extends:»
+endif
+
+
+" ----------------------------------------------------------------------------
+" - Plugin configuration                                                     -
+" ----------------------------------------------------------------------------
+set nocompatible
+
+filetype off                      " required
+set rtp+=~/.vim/bundle/Vundle.vim " required
+call vundle#begin()               " required
+
+Plugin 'gmarik/Vundle.vim'        " required
+
+Plugin 'tpope/vim-fugitive'
+Plugin 'cespare/vim-bclose'
+Plugin 'majutsushi/tagbar'
+Plugin 'sjbach/lusty'
+Plugin 'SirVer/ultisnips'
+Plugin 'vim-scripts/SuperTab'
+
+call vundle#end()                 " required
+filetype plugin indent on         " required
+
+" Supertab is a plugin that makes tab completion very super.
+let g:SuperTabDefaultCompletionType = "<C-X><C-N>"
+let g:SuperTabRetainCompletionType = 0
+
+let g:UltiSnipsExpandTrigger="<C-o>"
+let g:UltiSnipsJumpForwardTrigger="<C-o>"
+
+vnoremap <leader>sub :! perl-extract-method<CR>
+
+" LustyExplorer lets you open buffers and files easily
+let g:LustyExplorerSuppressRubyWarning = 0
+
+" Fugitive is a git plugin.
+" Automatically delete hidden fugitive buffers.
+autocmd BufReadPost fugitive://* set bufhidden=delete
+:nnoremap <F2> :Glog<CR>
+:inoremap <F2> :Glog<CR>
+:nnoremap <F3> :cprev<CR>
+:inoremap <F3> :cprev<CR>
+:nnoremap <F4> :cnext<CR>
+:inoremap <F4> :cnext<CR>
+
+" Tagbar is a plugin that lets you explore source code tags easily
+nnoremap <leader>tb :TagbarToggle<CR>
+
+" ----------------------------------------------------------------------------
+" - Misc scripts                                                             -
+" ----------------------------------------------------------------------------
+
+
+" When editing a file, always jump to the last known cursor position.
+autocmd BufReadPost *
+    \ if expand("<afile>:p:h") !=? $TEMP |
+    \   if line("'\"") > 0 && line("'\"") <= line("$") |
+    \     exe "normal g`\"" |
+    \     let b:doopenfold = 1 |
+    \   endif |
+    \ endif
+" Need to postpone using "zv" until after reading the modelines.
+autocmd BufWinEnter *
+    \ if exists("b:doopenfold") |
+    \   unlet b:doopenfold |
+    \   exe "normal zv" |
+    \ endif
+
+
+" Remove unwanted white space
+nnoremap <silent> <Leader>w :let _s=@/<Bar>:%s/\s\+$//e<Bar>
+            \:let @/=_s<Bar>:nohl<CR> <C-O>
+
+" Highlight the 80th column
+highlight OverLength ctermbg=yellow ctermfg=white
+:nnoremap <leader>oo :match OverLength /\%81v./<CR>
+:match OverLength /\%81v./
+:nnoremap <leader>no :match none<CR>
+
+set ttimeout
+set ttimeoutlen=20
+set notimeout

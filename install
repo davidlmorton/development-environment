@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+function abspath {
+    echo "$( \cd -P "$1" && pwd )"
+}
+
+function deep_readlink {
+    local TARGET="$1"
+    local DEEP_TARGET="$TARGET"
+
+    # resolve until the file is no longer a symlink
+    while [ -h "$DEEP_TARGET" ]; do
+        DIR=$(abspath "$(dirname "$DEEP_TARGET")")
+        DEEP_TARGET="$(readlink "$DEEP_TARGET")"
+
+        # if the directory was a relative symlink, we need to resolve it
+        # relative to the path where the symlink file was located
+        [[ $DEEP_TARGET != /* ]] && DEEP_TARGET="$DIR/$DEEP_TARGET"
+    done
+
+    DEEP_TARGET="$(abspath "$DEEP_TARGET")"
+
+    if [ ! -e "$DEEP_TARGET" ]; then
+        echo  "ERROR: $TARGET resolved to non-existant path: $DEEP_TARGET" 1>&2
+        exit 128
+    fi
+
+    echo "$DEEP_TARGET"
+}
+
+DIR="$(deep_readlink "$(dirname "${BASH_SOURCE[0]}")")"
+
+echo "Symlinking dotfiles."
+for filename in $(ls $DIR/dotfiles); do
+    ln -fs "$DIR/dotfiles/$filename" "$HOME/$filename"
+done
+
+echo "Symlinking directories."
+for LINK in bin; do
+    ln -fs "$DIR/$LINK" "$HOME/$LINK"
+done
+
+echo "Updating submodules."
+cd $DIR
+git submodule init
+git submodule update
+
+vim +PluginInstall +qall

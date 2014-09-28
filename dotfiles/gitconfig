@@ -1,0 +1,11 @@
+[user]
+    email = davidlmorton@gmail.com
+    name = David Morton
+[color]
+    ui = auto
+[core]
+    editor = vim
+[url "git@github.com:"]
+    insteadOf = "https://github.com/"
+[push]
+    default = tracking

@@ -32,7 +32,7 @@ DIR="$(deep_readlink "$(dirname "${BASH_SOURCE[0]}")")"
 
 echo "Symlinking dotfiles."
 for filename in $(ls $DIR/dotfiles); do
-    ln -fs "$DIR/dotfiles/$filename" "$HOME/$filename"
+    ln -fs "$DIR/dotfiles/$filename" "$HOME/.$filename"
 done
 
 echo "Symlinking directories."

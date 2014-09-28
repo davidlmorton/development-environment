@@ -32,7 +32,7 @@ DIR="$(deep_readlink "$(dirname "${BASH_SOURCE[0]}")")"
 
 echo "Removing symbolic links to dotfiles."
 for filename in $(ls $DIR/dotfiles); do
-    rm -rf "$HOME/$filename"
+    rm -rf "$HOME/.$filename"
 done
 
 echo "Removing symbolic links to directories."

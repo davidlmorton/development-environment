@@ -1,0 +1,17 @@
+#! /usr/bin/perl
+
+use strict;
+use warnings;
+use File::Spec;
+
+sub git_base_dir {
+    my $git_dir = `git rev-parse --git-dir`;
+    chomp $git_dir;
+    my $abs_git_dir = File::Spec->rel2abs($git_dir);
+    my $git_base_dir = (File::Spec->splitpath($abs_git_dir))[1];
+    return $git_base_dir;
+}
+
+my $gbd = git_base_dir();
+
+`bash -c 'pushd $gbd;git submodule update;popd'`;

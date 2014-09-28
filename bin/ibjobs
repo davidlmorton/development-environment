@@ -1,0 +1,93 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+use Genome::Utility::Text "side_by_side";
+use List::Util;
+use List::MoreUtils 'any';
+
+my ($args, @specified_keys) = process_argv(@ARGV);
+
+if ($args =~ /.*-l.*/) {
+    my $output = `bjobs $args`;
+
+    # remove spaces from front of lines and newlines
+    $output =~ s/\s{22}(.*)/$1/g;
+    $output =~ s/\n//g;
+
+    my @job_infos = split(/------------------------------------------------------------------------------/, $output);
+    for my $job_info (@job_infos) {
+        my ($keys, $values) = get_keys_and_values($job_info);
+        if (scalar(@specified_keys)) {
+            print_specified_values($keys, $values, @specified_keys);
+        } else {
+            print_all_keys_and_values($keys, $values);
+        }
+    }
+} else {
+    print `bjobs $args`;
+}
+
+sub print_specified_values {
+    my ($keys, $values, @specified_keys) = @_;
+
+    my %hash;
+    @hash{@$keys} = @$values;
+
+    print $hash{'Job'};
+    for my $key (@specified_keys) {
+        my $value = $hash{$key} || 'UNKNOWN';
+        printf "\t%s", $value;
+    }
+    print "\n";
+}
+
+sub print_all_keys_and_values {
+    my ($keys, $values) = @_;
+
+    my $left = join("\n", @$keys);
+    my $right = join("\n", @$values);
+    print side_by_side([$left, $right],
+        fill => ['.', ' '],
+        justification => ['left', 'left'],
+        max_width => 9999, # bug in side_by_side
+    );
+    print "\n\n";
+}
+
+sub get_keys_and_values {
+    my ($output) = @_;
+
+    my @keys;
+    my @values;
+    # find all key:value pairs
+    while ($output =~ /([^<]*)\s<(((?!>[A-Z;,]).)*)>[A-Z;,]\s*/g ) {
+        if (length($1) < 20) {
+            my $one = $1;
+            push @values, $2;
+
+            $one =~ s/\s/_/g;
+            push @keys, $one;
+        }
+    }
+    if ($output =~ /Submitted from host <([^>]*)>/) {
+        push @keys, "Submitted_from_host";
+        push @values, $1;
+    }
+    return \@keys, \@values;
+}
+
+sub process_argv {
+    my @argv = @_;
+
+    my $args = join(' ', @argv);
+    my @specified_keys;
+    my $key_specifier = q|\s*--([^\s]+)|;
+    while ($args =~ /$key_specifier/g) {
+        push @specified_keys, "$1";
+    }
+    $args =~ s/$key_specifier//g;
+
+    return $args, @specified_keys;
+}
+

@@ -1,0 +1,24 @@
+#! /bin/bash
+
+MODEL=$1
+string_end ()
+{
+    STRING=$1
+    LEN=$2
+    echo ${STRING:(${#STRING}-$LEN):$LEN}
+}
+SHORT_MODEL=$(string_end $MODEL 3)
+
+SESSION="me-$SHORT_MODEL"
+STATUS="Status"
+TMUX= tmux new-session -d -n 'Status' -s $SESSION
+echo "Created new session $SESSION"
+
+tmux send-keys -t $SESSION:$STATUS.0 "genome model build status $MODEL" "C-m"
+
+BUILDS=$(genome model build list model_id=$MODEL | awk '{print $1}' | tail -n +3)
+for BUILD in $BUILDS
+do
+    TARGET=$(tmux new-window -dP -n "Loading..." -t $SESSION "bash")
+    tmux send-keys -t $TARGET "be $BUILD" "C-m"
+done

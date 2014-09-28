@@ -1,0 +1,28 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+use Data::Dumper;
+
+my @offs  = `lsof -o0 -o -p $ARGV[0] | awk '{print \$7 " " \$9}'`;
+my @sizes = `lsof -o0 -s -p $ARGV[0] | awk '{print \$7 " " \$9}'`;
+
+my $off;
+my $size;
+while (my $off = shift(@offs)) {
+    my $size = shift(@sizes);
+
+    chomp($off);
+    chomp($size);
+
+    my ($o, $f) = split(/ /, $off);
+    my $s;
+    ($s, $f) = split(/ /, $size);
+
+    if ($o =~ m/^0t/ and $f and $s) {
+        $o =~ s/^0t//;
+        my $percent = ($o*1.0)/$s * 100.0;
+        print "$percent% $f\n";
+    }
+}
+

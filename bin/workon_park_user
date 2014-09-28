@@ -1,0 +1,10 @@
+export AMBER_URL='http://linus265:8080/'
+
+# This currently turns on allocation storage
+export ALLOCATION_URL=1
+export WF_USE_FLOW=1
+
+source /gscmnt/sata400/info/model_data/ParkBeta/procera-sandbox/env.sh
+
+# can be used to set to display in your bash prompt
+export TESTENV="ParkBeta-User"

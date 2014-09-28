@@ -1,0 +1,11 @@
+#!/bin/bash
+
+FILENAME=~/.notes.txt
+if [ -z "$1" ]; then
+    NUMDAYS="0"
+else
+    NUMDAYS=$1
+fi
+
+update_notes.py $FILENAME $NUMDAYS
+vi $FILENAME

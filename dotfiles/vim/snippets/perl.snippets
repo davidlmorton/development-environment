@@ -27,7 +27,7 @@ snippet db
 	$DB::single = 1;
 snippet pp
 	use Data::Dump qw(pp);
-	print pp(${0:<variable>}) . "\n";
+	print "#\e[34mDEBUG:\e[0m \e[31m" . '${1:<statement>}' . "\e[0m " . pp($1) . "\n";
 snippet dump
 	use Data::Dumper::Dumper;
 	print Data::Dumper::Dumper(${0:<variable>});

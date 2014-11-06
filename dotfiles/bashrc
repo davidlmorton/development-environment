@@ -1,13 +1,3 @@
-# load site specific stuff
-if [ ! -z $(hostname | grep 'gsc') ]; then
-    source $HOME/.tgi.bashrc
-fi
-
-# source alias file
-if [ -f $HOME/.bash_aliases ]; then
-    source $HOME/.bash_aliases
-fi
-
 # Environment
 export PATH=$PATH:$HOME/bin
 export EDITOR=vim
@@ -74,3 +64,14 @@ HISTFILESIZE=100000
 shopt -s histappend
 bind '"\e[B": history-search-forward'
 bind '"\e[A": history-search-backward'
+
+# load site specific stuff
+if [ ! -z $(hostname | grep 'gsc') ]; then
+    source $HOME/.tgi.bashrc
+fi
+
+# source alias file
+if [ -f $HOME/.bash_aliases ]; then
+    source $HOME/.bash_aliases
+fi
+

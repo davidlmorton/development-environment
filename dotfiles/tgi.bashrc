@@ -20,3 +20,25 @@ export MYGPGKEY=283A0250
 function plcd () { cd `wtf $1 | xargs dirname`; }
 function plvi () { vi `wtf $1`; }
 
+export PATH=$HOME/local_bin:$PATH
+
+# prompt
+display_test_env() {
+    if [ ! -z $TESTENV ]; then
+        echo "TESTENV=$TESTENV"
+    fi
+}
+
+git_ps1() {
+    local red=$(tput setaf 1)
+    local green=$(tput setaf 2)
+    local cyan=$(tput setaf 6)
+    local blue=$(tput setaf 4)
+    local clr=$(tput sgr0)
+
+    export PS1="$clr
+\d \@ $green\u${clr}@$cyan\h$clr:$(color_path $PWD) $(display_test_env) $red$(display_venv)$clr
+$(display_git_branch)$ "
+}
+
+export PROMPT_COMMAND="git_ps1"

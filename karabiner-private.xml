@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<root>
+
+    <item>
+        <name>Tmux Window Switch</name>
+        <identifier>private.switch_tmux_window</identifier>
+        <autogen>__KeyToKey__ KeyCode::COMMA, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::A, ModifierFlag::CONTROL_L, KeyCode::P</autogen>
+        <autogen>__KeyToKey__ KeyCode::DOT, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::A, ModifierFlag::CONTROL_L, KeyCode::N</autogen>
+    </item>
+
+    <item>
+        <name>Tmux Pane Switch</name>
+        <identifier>private.switch_tmux_pane</identifier>
+        <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::A, ModifierFlag::CONTROL_L, KeyCode::J, ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::A, ModifierFlag::CONTROL_L, KeyCode::K, ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::A, ModifierFlag::CONTROL_L, KeyCode::H, ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::A, ModifierFlag::CONTROL_L, KeyCode::L, ModifierFlag::SHIFT_L</autogen>
+    </item>
+    <item>
+      <name>Control_L to Control_L</name>
+      <appendix>(+ When you type Command_L only, toggles Normal Mode)</appendix>
+      <identifier>private.vimnormal_toggle_controlL</identifier>
+      <not>{{UBIQUITOUS_VIM_BINDINGS_IGNORE_APPS}}</not>
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::CONTROL_L,
+        KeyCode::CONTROL_L,
+        KeyCode::VK_LOCK_ALL_FORCE_OFF,
+        KeyCode::VK_CONFIG_FORCE_ON_notsave_ubiq_vimnormal,
+        {{ UBIQUITOUS_VIM_BINDINGS_CANCEL_OPERATOR_PENDING }}
+      </autogen>
+    </item>
+
+</root>

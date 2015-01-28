@@ -94,7 +94,7 @@ Plugin 'gmarik/Vundle.vim'        " required
 Plugin 'tpope/vim-fugitive'
 Plugin 'cespare/vim-bclose'
 Plugin 'majutsushi/tagbar'
-Plugin 'sjbach/lusty'
+Plugin 'jlanzarotta/bufexplorer'
 Plugin 'SirVer/ultisnips'
 Plugin 'vim-scripts/SuperTab'
 
@@ -109,9 +109,6 @@ let g:UltiSnipsExpandTrigger="<C-o>"
 let g:UltiSnipsJumpForwardTrigger="<C-o>"
 
 vnoremap <leader>sub :! perl-extract-method<CR>
-
-" LustyExplorer lets you open buffers and files easily
-let g:LustyExplorerSuppressRubyWarning = 0
 
 " Fugitive is a git plugin.
 " Automatically delete hidden fugitive buffers.

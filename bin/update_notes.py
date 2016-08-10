@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from subprocess import call
 import tempfile
 import re
+import os
 
 DATE_FORMAT = r'%A %B %d, %Y'
 
@@ -40,7 +41,10 @@ def update_dates(filename, num_days):
     outfile.close()
 
     tmpfile = tempfile.NamedTemporaryFile(mode='w', delete=False)
-    call(['cat', outfile.name, filename], stdout=tmpfile)
+    cmd = ['cat', outfile.name]
+    if os.path.exists(filename):
+        cmd.append(filename)
+    call(cmd, stdout=tmpfile)
     tmpfile.close()
     call(['mv', '-f', tmpfile.name, filename])
     call(['rm', '-f', tmpfile.name, outfile.name])

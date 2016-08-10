@@ -8,11 +8,15 @@ import re
 DATE_FORMAT = r'%A %B %d, %Y'
 
 def get_latest_date(filename):
-    with open(filename, 'r') as infile:
-        for line in infile.readlines():
-            match = re.search(r"^==== (.*) ====", line)
-            if match is not None:
-                return datetime.strptime(match.group(1), DATE_FORMAT).date()
+    try:
+        with open(filename, 'r') as infile:
+            for line in infile.readlines():
+                match = re.search(r"^==== (.*) ====", line)
+                if match is not None:
+                    return datetime.strptime(match.group(1), DATE_FORMAT).date()
+    except IOError:
+        pass
+    return datetime.today().date()
 
 def new_dates(latest_date, num_days):
     last_date = datetime.today().date() + timedelta(days=num_days)

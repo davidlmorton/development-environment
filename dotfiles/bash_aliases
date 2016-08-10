@@ -15,18 +15,9 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
 
-# recursively remove the .pyc files in this directory
-alias strip_pyc='find . -name \*.pyc | xargs rm -rf'
-# recursively find the .pyc files in this directory
-alias find_pyc='find . -name \*.pyc'
-
 # grep
 alias pgrep='egrep -r -n --color --exclude-dir="*.git*" --binary-files="without-match"'
 
 # version control
 alias gl='git log --graph --decorate'
 alias gg='git log --graph --oneline --boundary @{u}..'
-
-# ssh
-alias work="ssh -l dmorton linus265.gsc.wustl.edu"
-alias worky="ssh -Y -l dmorton linus265.gsc.wustl.edu"

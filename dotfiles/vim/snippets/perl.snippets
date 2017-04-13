@@ -28,6 +28,14 @@ snippet db
 snippet pp
 	use Data::Dump qw(pp);
 	print "#\e[34mDEBUG:\e[0m \e[31m" . '${1:<statement>}' . "\e[0m " . pp($1) . "\n";
+snippet jpp
+	use Data::Dump qw(pp);
+	$self->status_log(type => 'debug', text => '${1:<statement>}: ' . pp($1));
+snippet cpp
+	use Data::Dump qw(pp);
+	$self->logger->log_info("\e[31m" . '${1:<statement>}' . "\e[0m " . pp($1));
+snippet fpp
+	{my $LOG_THIS='${1:<statement>}'; use Data::Dump qw(pp); open(my $tmp_fh, '>>', '/tmp/filelog.txt'); print $tmp_fh "#\e[34m" . __FILE__ . "\e[0m \e[31m" . '$1' . "\e[0m " . pp($1) . "\n"; close $tmp_fh;}
 snippet dump
 	use Data::Dumper::Dumper;
 	print Data::Dumper::Dumper(${0:<variable>});

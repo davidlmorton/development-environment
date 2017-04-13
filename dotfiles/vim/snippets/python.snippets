@@ -1,73 +1,10 @@
-snippet while
-	while ${1:condition}:
-		${0}
-snippet dowhile
-	while True:
-		${1}
-		if ${0:condition}:
-			break
-snippet with
-	with ${1:expr} as ${2:var}:
-		${0}
-snippet class
-	class ${1:ClassName}(${2:object}):
-		"""${3:docstring for $1}"""
-		def __init__(self, ${4:arg}):
-			${5:super($1, self).__init__()}
-			self.$4 = $4
-			${0}
-snippet def
-	def ${1:fname}(${2:`indent('.') ? 'self' : ''`}):
-		"""${3:docstring for $1}"""
-		${0}
-
-snippet defs
-	def ${1:mname}(self, ${2:arg}):
-		${0}
-
-snippet if
-	if ${1:condition}:
-		${0}
-snippet else
-	else:
-		${0}
-snippet elif
-	elif ${1:condition}:
-		${0}
-snippet for
-	for ${1:item} in ${2:items}:
-		${0}
-snippet try Try/Except
-	try:
-		${1}
-	except ${2:Exception} as e:
-		${0:raise $3}
-snippet ifmain
-	if __name__ == '__main__':
-		${0:main()}
 snippet pp
 	import pprint; pprint.pprint(${1})
-snippet "
-	"""
-	${0:doc}
-	"""
-snippet test
-	class ${1:ExampleCase}(unittest.TestCase):
-		def setUp(self):
-			pass
-		def test_${2:description}(self):
-			${0}
+snippet lpp
+	import pprint; LOG.warning('${1:<statement>} = ' + pprint.pformat($1))
 snippet lg
 	import logging
-	logger = logging.getLogger(${0:__name__})
-snippet le
-	logger.error(${0:msg})
-# conflict with lambda=ld, therefor we change into Logger.debuG
-snippet ld
-	logger.debug(${0:msg})
-snippet lw
-	logger.warning(${0:msg})
-snippet lc
-	logger.critical(${0:msg})
-snippet li
-	logger.info(${0:msg})
+	
+	logger = logging.getLogger(__name__)
+	
+	

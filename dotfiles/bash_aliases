@@ -16,7 +16,7 @@ alias mv='mv -i'
 alias rm='rm -i'
 
 # grep
-alias pgrep='egrep -r -n --color --exclude-dir="*.git*" --binary-files="without-match"'
+alias igrep='egrep -r -n --color --exclude-dir="*.git*" --binary-files="without-match"'
 
 # version control
 alias gl='git log --graph --decorate'

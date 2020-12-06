@@ -5,6 +5,9 @@ let mapleader=','
 let timeoutlen=1500
 let maplocalleader=','
 
+imap jj <Esc>
+imap kk <Esc>
+
 set number
 set wildmenu
 set lazyredraw
@@ -23,6 +26,8 @@ set hidden " Keep buffer open when closing a file
 " then you can use the quickfix buffer to cycle through
 " files with :cn :cp and :copen
 set errorformat=%f
+
+set textwidth=119
 
 " Indentation
 set shiftwidth=4
@@ -92,14 +97,25 @@ call vundle#begin()               " required
 Plugin 'gmarik/Vundle.vim'        " required
 
 Plugin 'tpope/vim-fugitive'
-Plugin 'cespare/vim-bclose'
-Plugin 'majutsushi/tagbar'
+"Plugin 'cespare/vim-bclose'
+"Plugin 'majutsushi/tagbar'
 Plugin 'jlanzarotta/bufexplorer'
-Plugin 'SirVer/ultisnips'
-Plugin 'vim-scripts/SuperTab'
+"Plugin 'SirVer/ultisnips'
+"Plugin 'vim-scripts/SuperTab'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'guns/vim-clojure-static'
+Plugin 'tpope/vim-fireplace'
+Plugin 'nvie/vim-flake8'
+Plugin 'zxqfl/tabnine-vim'
 
 call vundle#end()                 " required
 filetype plugin indent on         " required
+
+" flake8 default key remap
+autocmd FileType python map <buffer> <leader>f :call flake8#Flake8()<CR>
+autocmd FileType python map <buffer> <leader>nf :call flake8#Flake8UnplaceMarkers()<CR>
+let g:flake8_show_in_file=1
+let g:flake8_show_in_gutter=1
 
 " Supertab is a plugin that makes tab completion very super.
 let g:SuperTabDefaultCompletionType = "<C-X><C-N>"
@@ -148,11 +164,13 @@ autocmd BufWinEnter *
 nnoremap <silent> <Leader>w :let _s=@/<Bar>:%s/\s\+$//e<Bar>
             \:let @/=_s<Bar>:nohl<CR> <C-O>
 
-" Highlight the 80th column
+" Highlight the 120th column
 highlight OverLength ctermbg=yellow ctermfg=white
-:nnoremap <leader>oo :match OverLength /\%81v./<CR>
-:match OverLength /\%81v./
+:nnoremap <leader>oo :match OverLength /\%121v./<CR>
+:match OverLength /\%121v./
 :nnoremap <leader>no :match none<CR>
+
+nnoremap <C-i> :grep! "\<<cword>\>" . -Ir --exclude *.txt --exclude tags<CR>:copen<CR>
 
 set ttimeout
 set ttimeoutlen=20

@@ -21,3 +21,12 @@ alias igrep='egrep -r -n --color --exclude-dir="*.git*" --binary-files="without-
 # version control
 alias gl='git log --graph --decorate'
 alias gg='git log --graph --oneline --boundary @{u}..'
+
+alias kprod='kubectl config use-context kubernetes.prod.waldo.photos'
+alias kdev='kubectl config use-context kubernetes.dev.waldo.photos'
+alias ra='rabbitmqadmin --base-uri https://rabbitmq.prod.waldo.photos:443 --username dmorton-cli --password fjY85ZGbj8PJgz7b'
+alias kg='kubectl get pods | grep '
+
+alias sum="paste -sd+ - | bc"
+
+alias waldo-psql="waldo psql"

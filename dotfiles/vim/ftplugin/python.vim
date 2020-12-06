@@ -9,6 +9,6 @@ setlocal smarttab
 
 " Word wrapping
 setlocal formatoptions=croql
-setlocal textwidth=80
+setlocal textwidth=120
 
 " Alignment XXX add tabular stuff here
